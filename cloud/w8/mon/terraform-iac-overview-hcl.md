@@ -43,14 +43,14 @@ Chủ đề: Terraform phần 1 - Infrastructure as Code overview + HCL syntax
 
 ## Kế hoạch học 6 giờ
 
-| Thời lượng | Nội dung | Output cần có |
-|---|---|---|
-| 45 phút | Đọc IaC overview và Terraform introduction | Ghi được Terraform giải quyết vấn đề gì |
-| 60 phút | Đọc HCL syntax và các block cơ bản | Ghi chú `terraform`, `provider`, `resource`, `variable`, `output` |
-| 60 phút | Đọc AWS provider docs và cách khai báo provider | Giải thích provider AWS cần region/credentials như thế nào |
-| 90 phút | Viết sample Terraform tối thiểu | Có file HCL mẫu và giải thích từng block |
-| 60 phút | Đọc trước workflow `init/plan/apply/destroy` | Biết lệnh nào làm việc gì |
-| 45 phút | Tổng kết reflection và câu hỏi cho mentor | Cập nhật phần Evidence và Questions |
+| Thời lượng | Nội dung                                        | Output cần có                                                     |
+| ---------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| 45 phút    | Đọc IaC overview và Terraform introduction      | Ghi được Terraform giải quyết vấn đề gì                           |
+| 60 phút    | Đọc HCL syntax và các block cơ bản              | Ghi chú `terraform`, `provider`, `resource`, `variable`, `output` |
+| 60 phút    | Đọc AWS provider docs và cách khai báo provider | Giải thích provider AWS cần region/credentials như thế nào        |
+| 90 phút    | Viết sample Terraform tối thiểu                 | Có file HCL mẫu và giải thích từng block                          |
+| 60 phút    | Đọc trước workflow `init/plan/apply/destroy`    | Biết lệnh nào làm việc gì                                         |
+| 45 phút    | Tổng kết reflection và câu hỏi cho mentor       | Cập nhật phần Evidence và Questions                               |
 
 ## Ghi chú bài học
 
@@ -123,16 +123,16 @@ output "bucket_name" {
 
 ### 4. Ý nghĩa từng block
 
-| Block | Vai trò |
-|---|---|
-| `terraform` | Khai báo version Terraform và provider cần dùng |
-| `required_providers` | Chỉ định provider source và version |
-| `provider` | Cấu hình provider, ví dụ AWS region |
-| `variable` | Định nghĩa input để cấu hình linh hoạt hơn |
-| `resource` | Khai báo tài nguyên cần Terraform quản lý |
-| `output` | In ra thông tin sau khi apply hoặc cho module khác dùng |
-| `locals` | Đặt giá trị nội bộ để tránh lặp logic |
-| `data` | Đọc thông tin có sẵn từ provider thay vì tạo mới |
+| Block                | Vai trò                                                 |
+| -------------------- | ------------------------------------------------------- |
+| `terraform`          | Khai báo version Terraform và provider cần dùng         |
+| `required_providers` | Chỉ định provider source và version                     |
+| `provider`           | Cấu hình provider, ví dụ AWS region                     |
+| `variable`           | Định nghĩa input để cấu hình linh hoạt hơn              |
+| `resource`           | Khai báo tài nguyên cần Terraform quản lý               |
+| `output`             | In ra thông tin sau khi apply hoặc cho module khác dùng |
+| `locals`             | Đặt giá trị nội bộ để tránh lặp logic                   |
+| `data`               | Đọc thông tin có sẵn từ provider thay vì tạo mới        |
 
 ## Bài thực hành đề xuất
 
@@ -147,25 +147,47 @@ Tạo ghi chú trả lời các câu hỏi:
 
 ### Bài 2 - Viết cấu hình tối thiểu
 
-Tạo thư mục thực hành riêng nếu cần:
+Thư mục thực hành:
 
 ```text
-cloud/w8/day-a/examples/basic-hcl/
+cloud/w8/mon/basic-hcl/
 ```
 
-Các file đề xuất:
+Cấu trúc file:
 
 ```text
-main.tf
-variables.tf
-outputs.tf
+basic-hcl/
+├── main.tf
+├── variables.tf
+└── outputs.tf
 ```
 
-Nội dung tối thiểu:
+Giải thích từng file:
 
-- `main.tf`: khai báo provider và một resource đơn giản.
-- `variables.tf`: khai báo region hoặc naming prefix.
-- `outputs.tf`: xuất ra tên hoặc ID resource.
+- `main.tf`: khai báo AWS provider và resource `aws_s3_bucket`. Provider cho Terraform biết sẽ làm việc với AWS ở region nào, còn resource mô tả bucket S3 cần tạo.
+- `variables.tf`: định nghĩa input cho cấu hình, gồm `region` và `name_prefix`. Cách này giúp đổi region hoặc tiền tố tên resource mà không phải sửa trực tiếp nhiều nơi trong code.
+- `outputs.tf`: khai báo dữ liệu cần in ra sau khi chạy `terraform apply`, ví dụ tên bucket và ARN. Output hữu ích để kiểm tra nhanh resource đã tạo hoặc truyền thông tin sang module/phần cấu hình khác.
+- `.terraform.lock.hcl`: ghi lại version provider đã được chọn sau `terraform init`, giúp các lần chạy sau dùng cùng version provider ổn định hơn.
+
+Luồng thực hành:
+
+1. Chạy `terraform init` để tải provider AWS và chuẩn bị thư mục làm việc.
+2. Chạy `terraform validate` để kiểm tra cấu hình HCL có hợp lệ không.
+3. Chạy `terraform plan` để xem Terraform dự kiến tạo/thay đổi/xóa gì trước khi đụng vào AWS.
+4. Chạy `terraform apply` để tạo bucket thật trên AWS nếu plan đúng như mong muốn.
+5. Chạy `terraform destroy` sau khi học xong để xóa resource, tránh phát sinh chi phí hoặc để lại tài nguyên không dùng.
+
+Hình minh họa kết quả chạy lệnh:
+
+![Terraform init](../../../assets/w8/mon/tf-init.png)
+
+![Terraform validate](../../../assets/w8/mon/tf-validate.png)
+
+![Terraform plan](../../../assets/w8/mon/tf-plan.png)
+
+![Terraform apply](../../../assets/w8/mon/tf-apply.png)
+
+![Terraform destroy](../../../assets/w8/mon/tf-destroy.png)
 
 ### Bài 3 - Đọc trước workflow
 
@@ -188,31 +210,3 @@ terraform destroy
 - [ ] Viết được một ví dụ HCL tối thiểu.
 - [ ] Giải thích được workflow `init`, `fmt`, `validate`, `plan`, `apply`, `destroy`.
 - [ ] Ghi lại câu hỏi còn vướng cho mentor.
-
-## Evidence
-
-- Link tài liệu đã đọc:
-  - 
-- Ghi chú chính:
-  - 
-- Lệnh đã chạy:
-  - 
-- File/example đã tạo:
-  - 
-- Kết quả hoặc screenshot:
-  - 
-
-## Câu hỏi cho mentor
-
-- Terraform state nên lưu local hay remote ở giai đoạn học/lab?
-- Khi nào nên tách module, khi nào chỉ cần resource trực tiếp?
-- Với AWS lab, nên ưu tiên resource nào để học mà ít rủi ro chi phí?
-
-## Reflection cuối ngày
-
-- Điều đã hiểu rõ:
-  - 
-- Điều còn mơ hồ:
-  - 
-- Việc cần làm tiếp vào Day B:
-  - 
