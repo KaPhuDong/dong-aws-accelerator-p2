@@ -2,3 +2,6 @@
 *.tfstate
 *.tfstate.*
 **/keypair/udemy-key
+*.tfvars
+*.tfvars.json
+**/backend.hcl
