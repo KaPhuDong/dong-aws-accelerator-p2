@@ -179,15 +179,15 @@ Luồng thực hành:
 
 Hình minh họa kết quả chạy lệnh:
 
-![Terraform init](../../../assets/w8/mon/tf-init.png)
+![Terraform init](imgs/tf-init.png)
 
-![Terraform validate](../../../assets/w8/mon/tf-validate.png)
+![Terraform validate](imgs/tf-validate.png)
 
-![Terraform plan](../../../assets/w8/mon/tf-plan.png)
+![Terraform plan](imgs/tf-plan.png)
 
-![Terraform apply](../../../assets/w8/mon/tf-apply.png)
+![Terraform apply](imgs/tf-apply.png)
 
-![Terraform destroy](../../../assets/w8/mon/tf-destroy.png)
+![Terraform destroy](imgs/tf-destroy.png)
 
 ### Bài 3 - Đọc trước workflow
 
