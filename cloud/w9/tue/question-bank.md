@@ -1,4 +1,4 @@
-# W9 Day B Question Bank - Observability: SLO/SLI, OpenTelemetry, Prometheus, Grafana, Loki
+# W9 Day B Question Bank - Observability: SLA/SLO, OpenTelemetry, Prometheus, Grafana, Loki
 
 > Nguồn câu hỏi cho bài self-study T3 09/06/2026. Format tham khảo theo `question-bank.md`: chia theo độ khó, mỗi câu có câu hỏi và đáp án mong đợi.
 
@@ -36,15 +36,15 @@
 - Logs bổ sung ngữ cảnh mà metrics không thể hiện chi tiết.
 - Loki là một công cụ phổ biến để lưu và truy vấn logs cùng Grafana.
 
-### Câu 4 - Dễ *(Chủ đề: SLI/SLO)*
-**Câu hỏi:** SLI và SLO khác nhau thế nào?
+### Câu 4 - Dễ *(Chủ đề: SLA/SLO)*
+**Câu hỏi:** SLA và SLO khác nhau thế nào?
 
 **Đáp án mong đợi:**
-- SLI là chỉ số đo chất lượng dịch vụ.
-- SLO là mục tiêu chất lượng đặt trên SLI.
-- Ví dụ SLI: tỷ lệ request thành công.
+- SLA là cam kết hoặc thỏa thuận chất lượng dịch vụ với người dùng/khách hàng.
+- SLO là mục tiêu vận hành cụ thể, đo được để giúp đội kỹ thuật giữ hệ thống ổn định.
+- Ví dụ SLA: cam kết service đạt 99.9% availability theo tháng.
 - Ví dụ SLO: 99.9% request thành công trong 30 ngày.
-- SLO giúp ra quyết định vận hành và deploy dựa trên dữ liệu.
+- SLO thường chặt hơn hoặc bằng SLA để đội vận hành có vùng đệm trước khi vi phạm cam kết.
 
 ### Câu 5 - Dễ *(Chủ đề: OpenTelemetry)*
 **Câu hỏi:** OpenTelemetry dùng để làm gì?
@@ -167,4 +167,3 @@ sum(rate(http_requests_total[5m]))
 - Traces giúp tìm service hoặc dependency gây chậm.
 - SLO và burn rate giúp biến chất lượng dịch vụ thành điều kiện quyết định.
 - Canary có thể tự động tiếp tục hoặc abort dựa trên Prometheus query.
-
